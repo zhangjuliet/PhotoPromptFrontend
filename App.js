@@ -5,6 +5,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
+import { Camera } from 'expo-camera';
+
 import {
   StyleSheet,
   Text,
@@ -36,6 +38,11 @@ const backend = {
       body: JSON.stringify(data)
     });
   },
+  getUserPosts: async () => {
+    let res = global_userID;
+
+    return fetch(apiDest + '/posts');
+  }
 };
 
 function LogInScreen({ navigation }) {
@@ -167,18 +174,72 @@ function HomeScreen({ navigation }) {
 }
 
 function ProfileScreen({ navigation }) {
+  let [images, setImages] = React.useState([]);
+
+  React.useEffect(async () => {
+    let raw = await backend.getUserPosts();
+    let res = await raw.json(); 
+    console.log(res[0].image);
+    setImages(res);
+  }, [])
+
+  const renderImages = images.map((image) => {
+    return (
+      (<Image style={{
+        width: 100,
+        height: 100
+      }} source={{uri: `${image.image}`}} />)
+    )
+  })
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Joe Bruin</Text>
+      {
+        renderImages
+      }
     </View>
   );
 }
 
+// function CameraScreen() {
+//   const [hasPermission, setHasPermission] = React.useState(null);
+//   const [type, setType] = React.useState(Camera.Constants.Type.back);
+
+//   React.useEffect(async () => {
+//       const { status } = await Camera.requestCameraPermissionsAsync();
+//       setHasPermission(status === 'granted');
+//   }, [setHasPermission]);
+
+//   if (hasPermission === null) {
+//     return <View />;
+//   }
+//   if (hasPermission === false) {
+//     return <Text>No access to camera</Text>;
+//   }
+//   return (
+//     <View style={styles.container}>
+//       <Camera style={styles.camera} type={type}>
+//         <View style={styles.buttonContainer}>
+//           <TouchableOpacity
+//             style={styles.button}
+//             onPress={() => {
+//               setType(
+//                 type === Camera.Constants.Type.back
+//                   ? Camera.Constants.Type.front
+//                   : Camera.Constants.Type.back
+//               );
+//             }}>
+//             <Text style={styles.text}> Flip </Text>
+//           </TouchableOpacity>
+//         </View>
+//       </Camera>
+//     </View>
+//   );
+// }
+
 // const StartStack = createNativeStackNavigator();
 
 // function StartStackScreen() {
-//   return (
-//     <StartStack.Navigator>
+//   return ( //     <StartStack.Navigator>
 //       <StartStack.Screen name="Login" component={LogInScreen} />
 //       <StartStack.Screen name="Signup" component={SignUpScreen} />
 //     </StartStack.Navigator>
@@ -197,6 +258,7 @@ export default function App() {
         <Tab.Screen name="Explore" component={ExploreScreen} />
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
+        {/* <Tab.Screen name="Profile" component={CameraScreen} /> */}
       </Tab.Navigator>
     </NavigationContainer>
   );
