@@ -1,5 +1,3 @@
-// Pitch as wordle but with getting you outside
-
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -13,9 +11,11 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
+  Dimensions
 } from "react-native";
 
-const apiDest = 'https://wander.wumpler.com';
+const apiDest = 'https://
+.wumpler.com';
 
 let global_userID = "";
 let global_session = "";
@@ -57,7 +57,7 @@ function LogInScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.appName}>PhotoPrompt</Text>
+      <Text style={styles.appName}>Wander</Text>
       <StatusBar style="auto" />
 
       <Text id="response_text" style={styles.title}></Text>
@@ -169,7 +169,7 @@ function SignUpScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.appName}>PhotoPrompt</Text>
+      <Text style={styles.appName}>Wander</Text>
       <StatusBar style="auto" />
 
       <Text style={styles.title}>Sign Up</Text>
@@ -221,8 +221,17 @@ function SignUpScreen({ navigation }) {
 
 function ExploreScreen({ navigation }) {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Gallery of Images</Text>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center",  flexWrap: "wrap", flexDirection: "row" }}>
+      <Image source={require('./assets/animal1.jpeg')} style={{height:Dimensions.get('window').width/2, width:Dimensions.get('window').width/2}}/>
+      <Image source={require('./assets/animal2.jpeg')} style={{height:Dimensions.get('window').width/2, width:Dimensions.get('window').width/2}}/>
+      <Image source={require('./assets/animal3.jpeg')} style={{height:Dimensions.get('window').width/2, width:Dimensions.get('window').width/2}}/>
+      <Image source={require('./assets/animal4.jpeg')} style={{height:Dimensions.get('window').width/2, width:Dimensions.get('window').width/2}}/>
+      <Image source={require('./assets/animal5.jpeg')} style={{height:Dimensions.get('window').width/2, width:Dimensions.get('window').width/2}}/>
+      <Image source={require('./assets/animal6.jpeg')} style={{height:Dimensions.get('window').width/2, width:Dimensions.get('window').width/2}}/>
+      <Image source={require('./assets/animal7.jpeg')} style={{height:Dimensions.get('window').width/2, width:Dimensions.get('window').width/2}}/>
+      <Image source={require('./assets/animal8.jpeg')} style={{height:Dimensions.get('window').width/2, width:Dimensions.get('window').width/2}}/>
+      <Image source={require('./assets/animal9.jpeg')} style={{height:Dimensions.get('window').width/2, width:Dimensions.get('window').width/2}}/>
+      <Image source={require('./assets/animal10.jpeg')} style={{height:Dimensions.get('window').width/2, width:Dimensions.get('window').width/2}}/>
     </View>
   );
 }
@@ -261,7 +270,6 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        {/* Delete login from bottom tab navigator later. Currently here for testing. */}
         <Tab.Screen name="Log In" component={LogInScreen} />
         <Tab.Screen name="Sign Up" component={SignUpScreen} />
         <Tab.Screen name="Explore" component={ExploreScreen} />
@@ -318,7 +326,11 @@ const styles = StyleSheet.create({
     height: 30,
     color: "#DAD7CD",
   },
-
+  
+  loginText: {
+    weight: "bold"
+  },
+  
   loginButton: {
     width: "25%",
     borderRadius: 25,
