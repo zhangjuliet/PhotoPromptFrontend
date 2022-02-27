@@ -39,7 +39,7 @@ const backend = {
 };
 
 function LogInScreen({ navigation }) {
-  const [response, setResponse] = React.useState("");
+  const [responseText, setResponseText] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -48,7 +48,7 @@ function LogInScreen({ navigation }) {
       <Text style={styles.appName}>PhotoPrompt</Text>
       <StatusBar style="auto" />
 
-      <Text id="response_text" style={styles.title}></Text>
+      <Text style={styles.responseText}>{responseText}</Text>
 
       <Text style={styles.title}>Login</Text>
       <View style={styles.inputView}>
@@ -83,15 +83,18 @@ function LogInScreen({ navigation }) {
               global_userID = userID;
               global_session = session;
 
+              setResponseText("");
+              setEmail("");
+              setPassword("");
               navigation.navigate('Home'); // success
             }
             else if (res.status == 401) {
               // Invalid username or password
-              document.getElementById('response_text').innerHTML = "Invalid username or password";
+              setResponseText("Invalid username or password");
             }
             else if (res.status == 501) {
               // User not found
-              document.getElementById('response_text').innerHTML = "User not found";
+              setResponseText("User not found");
             }
           });
         }}
@@ -218,6 +221,16 @@ const styles = StyleSheet.create({
   title: {
     color: "#DAD7CD",
     fontSize: innerWidth / 15,
+    fontWeight: "bold",
+    marginBottom: 10,
+    alignItems: "left",
+    textAlign: "left",
+    justifyContent: "left",
+  },
+
+  responseText: {
+    color: "#FF0000",
+    fontSize: innerWidth / 25,
     fontWeight: "bold",
     marginBottom: 10,
     alignItems: "left",
