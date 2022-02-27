@@ -14,8 +14,7 @@ import {
   Dimensions
 } from "react-native";
 
-const apiDest = 'https://
-.wumpler.com';
+const apiDest = 'https://wander.wumpler.com';
 
 let global_userID = "";
 let global_session = "";
@@ -166,6 +165,7 @@ function PhotoUpload({ navigation }){
 }
 
 function SignUpScreen({ navigation }) {
+  const [responseText, setResponseText] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [username, setUserName] = React.useState("");
@@ -176,6 +176,9 @@ function SignUpScreen({ navigation }) {
       <StatusBar style="auto" />
 
       <Text style={styles.title}>Sign Up</Text>
+
+      <Text style={styles.responseText}>{responseText}</Text>
+      
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
@@ -209,9 +212,9 @@ function SignUpScreen({ navigation }) {
             if (res.status == 201)
               navigation.navigate('Log In');
             else if (res.status == 406) // user exists
-              console.log('display banner??');
+              setResponseText("A user with this email already exists.");
             else if (res.status == 500) // internal server error
-              console.log('rip server');
+              console.log('An internal server error occurred. Please try again.');
           })
           // navigation.navigate("Home")
         }}
