@@ -1,3 +1,5 @@
+// Pitch as wordle but with getting you outside
+
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -15,8 +17,25 @@ import {
 
 const apiDest = 'https://wander.wumpler.com';
 
-const backend = {
+let global_userID = "";
+let global_session = "";
 
+const backend = {
+  login: (email, password) => {
+    const data = {
+      email: email,
+      password: password
+    };
+
+    return fetch(apiDest + '/auth/login', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+  },
   register: (email, username, password) => {
     let data = { email, username, password };
 
@@ -32,12 +51,16 @@ const backend = {
 };
 
 function LogInScreen({ navigation }) {
+  const [response, setResponse] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
   return (
     <View style={styles.container}>
       <Text style={styles.appName}>PhotoPrompt</Text>
       <StatusBar style="auto" />
+
+      <Text id="response_text" style={styles.title}></Text>
 
       <Text style={styles.title}>Login</Text>
       <View style={styles.inputView}>
@@ -55,7 +78,7 @@ function LogInScreen({ navigation }) {
           placeholder="Password"
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
+          onChangeText={(p) => setPassword(p)}
         />
       </View>
 
@@ -65,10 +88,24 @@ function LogInScreen({ navigation }) {
 
       <TouchableOpacity
         style={styles.loginButton}
-        onPress={() => {
-          console.log(email);
-          console.log(password);
-          // navigation.navigate("Home")
+        onPress={async () => {
+          backend.login(email, password).then(res => {
+            if (res.status == 200) {
+              let { userID, session } = res.json();
+              global_userID = userID;
+              global_session = session;
+
+              navigation.navigate('Home'); // success
+            }
+            else if (res.status == 401) {
+              // Invalid username or password
+              document.getElementById('response_text').innerHTML = "Invalid username or password";
+            }
+            else if (res.status == 501) {
+              // User not found
+              document.getElementById('response_text').innerHTML = "User not found";
+            }
+          });
         }}
       >
         <Text style={styles.loginText}>LOGIN</Text>
