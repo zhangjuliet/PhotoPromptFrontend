@@ -57,7 +57,7 @@ function LogInScreen({ navigation }) {
   );
 }
 
-const photoUploaded = true;
+const photoUploaded = false;
 
 function PhotoUpload({ navigation }){
   if(photoUploaded == false){
@@ -66,6 +66,7 @@ function PhotoUpload({ navigation }){
         <Text style= {styles.heading}>Prompt of the Day</Text>
         <Text style = {styles.prompt}>"find an animal"</Text>
         <View style = {[styles.whiteBox, styles.shadowProp]}>
+        <Image source={require('./assets/upload_image.png')} style={{height:"250px", width:"250px", resizeMode: 'contain', position: 'absolute', marginTop: 30, marginBottom: 360}}/>
         <TouchableOpacity style={styles.cameraButton} activeOpacity={0.5}>
           <Image source={require('./assets/cameraAdd.png')}
           style={styles.ImageIconStyle}/>
@@ -81,6 +82,7 @@ function PhotoUpload({ navigation }){
         <Text style= {styles.heading}>Prompt of the Day</Text>
         <Text style = {styles.prompt}>"find an animal"</Text>
         <View style = {[styles.whiteBox, styles.shadowProp]}>
+        <Image source={require('./assets/duck.png')} style={{height:"300px", width:"300px", resizeMode: 'contain', position: 'absolute', marginTop: 30, marginBottom: 360, borderRadius: 50}}/>
         <View style={{ flexDirection:"row" }}>
         <TouchableOpacity style={styles.cameraButton} activeOpacity={0.5}>
           <Image source={require('./assets/cameraAdd.png')}
