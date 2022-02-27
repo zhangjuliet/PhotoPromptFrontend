@@ -57,20 +57,46 @@ function LogInScreen({ navigation }) {
   );
 }
 
+const photoUploaded = true;
+
 function PhotoUpload({ navigation }){
-  return (
-    <View style = {styles.mainBackdrop}>
-      <Text style= {styles.heading}>Prompt of the Day</Text>
-      <Text style = {styles.prompt}>"find an animal"</Text>
-      <View style = {[styles.whiteBox, styles.shadowProp]}>
-      <TouchableOpacity style={styles.cameraButton} activeOpacity={0.5}>
-        <Image source={require('./assets/cameraAdd.png')}
-        style={styles.ImageIconStyle}/>
-        <Text style={styles.TextStyle}>Take a Photo!</Text>
-      </TouchableOpacity>
+  if(photoUploaded == false){
+    return (
+      <View style = {styles.mainBackdrop}>
+        <Text style= {styles.heading}>Prompt of the Day</Text>
+        <Text style = {styles.prompt}>"find an animal"</Text>
+        <View style = {[styles.whiteBox, styles.shadowProp]}>
+        <TouchableOpacity style={styles.cameraButton} activeOpacity={0.5}>
+          <Image source={require('./assets/cameraAdd.png')}
+          style={styles.ImageIconStyle}/>
+          <Text style={styles.TextStyle}>Take a Photo!</Text>
+        </TouchableOpacity>
+        </View>
       </View>
-    </View>
- )
+    )
+  }
+  else{
+    return (
+      <View style = {styles.mainBackdrop}>
+        <Text style= {styles.heading}>Prompt of the Day</Text>
+        <Text style = {styles.prompt}>"find an animal"</Text>
+        <View style = {[styles.whiteBox, styles.shadowProp]}>
+        <View style={{ flexDirection:"row" }}>
+        <TouchableOpacity style={styles.cameraButton} activeOpacity={0.5}>
+          <Image source={require('./assets/cameraAdd.png')}
+          style={styles.ImageIconStyle}/>
+          <Text style={styles.TextStyle}>Edit Your Photo!</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.cameraButton} activeOpacity={0.5}>
+          <Image source={require('./assets/Share.png')}
+          style={styles.ImageIconStyle}/>
+          <Text style={styles.TextStyle}>Share with Friends!</Text>
+        </TouchableOpacity>
+        </View>
+        </View>
+      </View>
+   )
+  }
 }
 
 function SignUpScreen({ navigation }) {
@@ -296,7 +322,7 @@ ImageIconStyle: {
   margin: 5,
   height: 25,
   width: 25,
-  resizeMode: 'stretch',
+  resizeMode: 'contains',
 },
 SeparatorLine:{
   backgroundColor : '#dfdfdf',
