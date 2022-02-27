@@ -13,7 +13,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+const apiDest = 'wander.wumpler.com';
+
 function LogInScreen({ navigation }) {
+  const [email, setEmail] = React.useState("");
+
   return (
     <View style={styles.container}>
       <Text style={styles.appName}>PhotoPrompt</Text>
@@ -25,7 +29,7 @@ function LogInScreen({ navigation }) {
           style={styles.TextInput}
           placeholder="Email"
           placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
+          onChangeText={(e) => setEmail(e)}
         />
       </View>
 
@@ -45,7 +49,10 @@ function LogInScreen({ navigation }) {
 
       <TouchableOpacity
         style={styles.loginButton}
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => {
+          console.log(email);
+          // navigation.navigate("Home")
+        }}
       >
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
