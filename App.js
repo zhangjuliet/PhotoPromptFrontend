@@ -13,7 +13,23 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const apiDest = 'wander.wumpler.com';
+const apiDest = 'https://wander.wumpler.com';
+
+const backend = {
+
+  register: (email, username, password) => {
+    let data = { email, username, password };
+
+    return fetch(apiDest + '/auth/register', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+  }
+};
 
 function LogInScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
@@ -51,6 +67,7 @@ function LogInScreen({ navigation }) {
         style={styles.loginButton}
         onPress={() => {
           console.log(email);
+          console.log(password);
           // navigation.navigate("Home")
         }}
       >
@@ -65,6 +82,10 @@ function LogInScreen({ navigation }) {
 }
 
 function SignUpScreen({ navigation }) {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [username, setUserName] = React.useState("");
+
   return (
     <View style={styles.container}>
       <Text style={styles.appName}>PhotoPrompt</Text>
@@ -97,7 +118,20 @@ function SignUpScreen({ navigation }) {
         />
       </View>
 
-      <TouchableOpacity style={styles.loginButton}>
+      <TouchableOpacity
+        style={styles.loginButton}
+        onPress={() => {
+          backend.register(email, username, password).then(res => {
+            if (res.status == 201)
+              navigation.navigate('Log In');
+            else if (res.status == 406) // user exists
+              console.log('display banner??');
+            else if (res.status == 500) // internal server error
+              console.log('rip server');
+          })
+          // navigation.navigate("Home")
+        }}
+      >
         <Text style={styles.loginText}>SIGN UP</Text>
       </TouchableOpacity>
     </View>
